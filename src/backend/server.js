@@ -18,19 +18,22 @@ app.listen(4500, (req, res) => {
   console.log("listening in port 4500...");
 });
 app.post('/regUserEvent', userController.registerUserInEvent);
-app.get('/registeredPlayers/:id', eventController.getNumberOfRegisteredPlayers);
 app.post('/cancelReg', userController.cancelRegistration);
 app.get('/users', userController.getUsers);
+app.post('/users', userController.addUser);
+app.put('/users/:id', userController.updateUser);
+app.get('/users/:id', userController.getAUser);
+app.delete('/users/:id', userController.deleteUser);
+app.get('/playerProfile/:name', userController.playerProfile);
+
+app.get('/registeredPlayers/:id', eventController.getNumberOfRegisteredPlayers);
 app.get('/events', eventController.getEvents);
 app.delete('/eventinfo/:id', eventController.deleteEvent);
 app.post('/eventinfo', eventController.addEvent);
 app.put('/eventinfo/:id', eventController.updateEvent);
 app.get('/eventinfo', eventController.getEventInfo);
 app.get('/eventinfo/:id', eventController.getAnEventInfo);
-app.put('/users/:id', userController.updateUser);
-app.get('/users/:id', userController.getAUser);
-app.delete('/users/:id', userController.deleteUser);
-app.post('/users', userController.addUser);
+
 app.post('/signup', signupController.signup);
-app.get('/playerProfile/:name', userController.playerProfile);
+
 app.post('/login', loginController.login)

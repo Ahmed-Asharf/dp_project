@@ -143,10 +143,12 @@ class Event extends Component {
                                             <text style={{ color: "white" }}>{event.ENDDATE}</text>
                                             <text style={{ color: "white" }}>{event.description}</text>
                                             {
+                                                user.tour_id == null ? this.state.count == event.maxplayers ? <button class="btn btn-outline-secondary">Registrations closed!</button> :
+                                                <button class="btn btn-outline-secondary" onClick={this.registerUser}>Register</button> :
                                                 user.tour_id == this.state.id ?
                                                     <button class="btn btn-outline-secondary" onClick={this.cancelRegistration}>Cancel Registration</button> :
-                                                    this.state.count == event.maxplayers ? <button class="btn btn-outline-secondary">Registrations closed!</button>:
-                                                    <button class="btn btn-outline-secondary" onClick={this.registerUser}>Register</button>
+                                                    <button class="btn btn-outline-secondary">Already Registered in another tournament</button>
+                                                        
                                             }
 
                                         </div>
@@ -164,7 +166,7 @@ class Event extends Component {
                         </div>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <div style={{ width: "80%" }}>
-                                <Slider name={user.userName} />
+                                <Slider name={user.userName} id={this.state.id} />
                             </div>
                         </div>
                         {backdrop}
