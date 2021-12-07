@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import Header from './Header'
-import CurrentEvent from './CurrentEvent';
 import background from '../images/bg.jpeg';
 import Backdrop from './Backdrop';
-import Signup from './Signup';
 import SuperTab from './SuperTab';
 import axios from 'axios';
-import Usercard from './Usercard';
 import './Usercard.css'
 import Slider from './Slider';
 import picture from '../images/thor.PNG';
@@ -132,7 +129,7 @@ class Event extends Component {
                                     {user.userName}
                                 </h5>
                                 <p className="card-text">
-                                    {user.email}
+                                    {user.EMAIL}
                                 </p>
                             </div>
                         </div>
@@ -144,6 +141,7 @@ class Event extends Component {
                                         <div style={{ display: "flex", width: "100%", height: 150, flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
                                             <text style={{ color: "white", fontSize: 20 }}>{event.STARTDATE}</text>
                                             <text style={{ color: "white" }}>{event.ENDDATE}</text>
+                                            <text style={{ color: "white" }}>{event.description}</text>
                                             {
                                                 user.tour_id == this.state.id ?
                                                     <button class="btn btn-outline-secondary" onClick={this.cancelRegistration}>Cancel Registration</button> :
@@ -166,7 +164,7 @@ class Event extends Component {
                         </div>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <div style={{ width: "80%" }}>
-                                <Slider id={this.state.id} />
+                                <Slider name={user.userName} />
                             </div>
                         </div>
                         {backdrop}
