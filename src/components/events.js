@@ -23,6 +23,7 @@ export const EventEdit = props => (
            <TextInput source="PRIZE"/>
            <TextInput source="IMAGE"/>
            <TextInput source="description" options={{ multiLine: true }}/>
+           <TextInput source="TAGLINE"/>
            <TextInput source="maxplayers"/>
            <TextInput source="players_per_team"/>
         </SimpleForm>
@@ -38,6 +39,7 @@ export const EventEdit = props => (
            <TextInput source="PRIZE"/>
            <TextInput source="IMAGE"/>
            <TextInput source="description"  options={{ multiLine: true }}/>
+           <TextInput source="TAGLINE"/>
            <TextInput source="maxplayers"/>
            <TextInput source="players_per_team"/>
         </SimpleForm>
@@ -52,6 +54,7 @@ export const EventList = props => (
            <TextField source="PRIZE" />
            <TextField source="IMAGE"/>
            <TextField source="description"/>
+           <TextField source="TAGLINE"/>
            <TextField source="maxplayers"/>
            <TextField source="players_per_team"/>
            <EditButton />

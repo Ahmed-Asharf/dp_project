@@ -71,20 +71,19 @@ exports.deleteEvent = (req, res) => {
 
 exports.addEvent = (req, res) => {
     console.log(req.body);
-    const { id, STARTDATE, ENDDATE, PRIZE, IMAGE, description } = req.body;
+    const { id, STARTDATE, ENDDATE, PRIZE, IMAGE, TAGLINE, description } = req.body;
 
-    let sql = `insert into gamesystem.tournaments(id,startDate,endDate,prize, image) values (?)`;
+    let sql = `insert into gamesystem.tournaments(id,startDate,endDate,prize, image, time_added) values (?)`;
 
-    let values = [id, STARTDATE, ENDDATE, PRIZE, IMAGE];
+    let values = [id, STARTDATE, ENDDATE, PRIZE, IMAGE, Date.now().toString()];
     console.log(values);
     con.query(sql, [values], (err, docs) => {
         if (err) {
             return sendResponse(err.message, 400, res, 'fail');
         }
-        return sendResponse(true, 201, res, 'success');
     });
     sql = `insert into gamesystem.tour_info values (?)`;
-    values = [id, description]
+    values = [id, description, TAGLINE]
     con.query(sql, [values], (err, docs) => {
         if (err) {
             return sendResponse(err.message, 400, res, 'fail');
@@ -141,6 +140,17 @@ exports.getAnEventInfo = (req, res) => {
         res.set('X-Total-Count', result.length)
 
         res.send(result)
+        console.log("Records sent!");
+    });
+}
+
+exports.getRecentEvent = (req, res) => {
+    const sql = `SELECT * FROM gamesystem.TOURNAMENTS T LEFT OUTER JOIN gamesystem.TOUR_INFO TI ON T.id = TI.TOUR_ID ORDER BY T.TIME_ADDED DESC`;
+    con.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        res.set('Access-Control-Expose-Headers', 'X-Total-Count')
+        res.set('X-Total-Count', result.length)
+        res.send([result[0]])
         console.log("Records sent!");
     });
 }

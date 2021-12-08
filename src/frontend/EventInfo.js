@@ -20,7 +20,7 @@ class Event extends Component {
         }
     }
     async componentDidMount() {
-        const id = this.props.location.search.split("id=")[1].split("&&")[0];
+        const id = this.props.location.search.split("id=")[1].split("&")[0];
         const name = this.props.location.search.split("name=")[1];
         this.state.id = id;
         this.state.name = name;
@@ -147,7 +147,7 @@ class Event extends Component {
                                                 <button class="btn btn-outline-secondary" onClick={this.registerUser}>Register</button> :
                                                 user.tour_id == this.state.id ?
                                                     <button class="btn btn-outline-secondary" onClick={this.cancelRegistration}>Cancel Registration</button> :
-                                                    <button class="btn btn-outline-secondary">Already Registered in another tournament</button>
+                                                    <button class="btn btn-outline-secondary">Already Registered in a tournament</button>
                                                         
                                             }
 

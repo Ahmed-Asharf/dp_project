@@ -38,7 +38,7 @@ class Slider extends React.Component {
                     <span style={{ color: "white" }}>{event.PRIZE}</span>
                     <span style={{ color: "white" }}>{event.STARTDATE}</span>
                     <span style={{ color: "white" }}>{event.ENDDATE}</span>
-                    <Link to={{ pathname: `/event?id=${event.id}&&name=${this.props.name}` }}>
+                    <Link to={{ pathname: `/event?id=${event.id}&name=${this.props.name}` }}>
                       <button class="btn btn-outline-secondary">View Event</button>
                     </Link>
                   </div>

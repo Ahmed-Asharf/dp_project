@@ -33,6 +33,7 @@ app.post('/eventinfo', eventController.addEvent);
 app.put('/eventinfo/:id', eventController.updateEvent);
 app.get('/eventinfo', eventController.getEventInfo);
 app.get('/eventinfo/:id', eventController.getAnEventInfo);
+app.get('/recentEvent', eventController.getRecentEvent);
 
 app.post('/signup', signupController.signup);
 
