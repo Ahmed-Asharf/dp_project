@@ -4,6 +4,7 @@ import { LogoFacebook, LogoInstagram, LogoYoutube, LogoReddit } from 'react-ioni
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { env } from 'process';
+import background from '../images/csgo2.jpeg';
 class CurrentEvent extends Component {
     constructor() {
         super()
@@ -22,8 +23,8 @@ class CurrentEvent extends Component {
         return (
             <>
             {this.state.recentEvent.map((event, index) => (
-            <div style={{ backgroundColor: "#041E42", borderRadius: 10, opacity: 0.9 }}>
-                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: 80 }}>
+            <div style={{ backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.6)), url('${background}')`, backgroundSize:"cover",  borderRadius: 10}}>
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: 50 }}>
                     <div style={{ width: "60%", display: "flex", justifyContent: "center" }}>
                        
                             <div style={{ width: "100%" }}>
