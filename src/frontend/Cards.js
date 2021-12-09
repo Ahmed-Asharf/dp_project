@@ -1,12 +1,12 @@
 import React from "react";
 import "./Cards.css";
 
-export const Cards = () => {
+export const Cards = (props) => {
   return (
     <article className="card">
       <div className="card__media">
         <img
-          src="https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+          src={props.url}
           alt="Card"
         />
         <div className="card__date">

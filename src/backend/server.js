@@ -23,6 +23,7 @@ app.get('/users', userController.getUsers);
 app.post('/users', userController.addUser);
 app.put('/users/:id', userController.updateUser);
 app.get('/users/:id', userController.getAUser);
+app.get('/usersName/:userName', userController.getAUserbyName);
 app.delete('/users/:id', userController.deleteUser);
 app.get('/playerProfile/:name', userController.playerProfile);
 
@@ -34,7 +35,7 @@ app.put('/eventinfo/:id', eventController.updateEvent);
 app.get('/eventinfo', eventController.getEventInfo);
 app.get('/eventinfo/:id', eventController.getAnEventInfo);
 app.get('/recentEvent', eventController.getRecentEvent);
-
+app.get('/event/:userName', eventController.getEventOfUser);
 app.post('/signup', signupController.signup);
 
 app.post('/login', loginController.login)

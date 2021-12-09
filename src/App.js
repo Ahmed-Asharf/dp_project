@@ -5,7 +5,7 @@ import Admin from './frontend/Admin';
 import Home from './frontend/Home';
 import Dashboard from './frontend/Dashboard';
 import Event from './frontend/EventInfo';
-
+import Settings from './frontend/Settings';
 class App extends Component {
   render() {
     return (
@@ -17,6 +17,7 @@ class App extends Component {
             <Route path="/admin" component={Admin} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/event" component={Event} />
+            <Route path="/settings" component={Settings} />
           </Switch>
         </div>
       </BrowserRouter>

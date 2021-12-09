@@ -8,11 +8,14 @@ import SuperTab from './SuperTab';
 import Slider from './Slider';
 import axios from 'axios';
 import Footer from './Footer';
+import { Cards } from './Cards';
+const urls = ["https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", background]
 class Home extends Component {
   state = {
     sideDrawerOpen: false,
     isLogin: true,
-    recentEvent: []
+    recentEvent: [],
+
   };
   drawerEvent = () => {
     this.setState((prevState) => {
@@ -44,7 +47,6 @@ class Home extends Component {
         <div style={{ height: "120vh", backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.4)), url('${background}')`, backgroundSize: "cover" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div style={{ width: "90%" }}>
-              {/* current event info */}
               <text style={{ color: "white", fontSize: 80, color: "#E9072B", fontWeight: "bold", fontFamily: "Roboto", letterSpacing: 10, position: "absolute", top: "40%", left: "5%" }}>GAMING BATTLES</text>
               <div style={{ marginTop: 20 }}>
                 <p style={{ color: "grey", fontFamily: "Roboto", top: "60%", left: "5%", position: "absolute", fontSize: 20, fontWeight: "bold" }}>Compete with top ranked teams to take<span style={{ color: "dark-grey" }}> your skills to the next level!</span></p>
@@ -55,15 +57,42 @@ class Home extends Component {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 50 }}>
           <div style={{ width: "90%" }}>
             <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B" }}>
-              <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft:20}}>Recent Event</text>
+              <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20 }}>Recent Event</text>
             </div>
             <CurrentEvent />
           </div>
         </div>
         {/* text */}
-        {this.state.recentEvent.map((event, index) => (
-          <Slider id={event.id} />
-        ))}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 150, backgroundColor: "#041E42", width: "100%" }}>
+          <div style={{ width: "90%", marginBottom: 100 }}>
+            <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B", marginTop: 100 }}>
+              <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20, color: "white" }}>More on going events</text>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ width: "80%" }}>
+                {this.state.recentEvent.map((event, index) => (
+                  <Slider id={event.id} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 50 }}>
+          <div style={{ width: "90%" }}>
+            <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B" }}>
+              <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20 }}>Explore More</text>
+            </div>
+          </div>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: "90%", marginTop: 40 }}>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              {urls.map((url, index) => (
+                <Cards url={url} />
+              ))}
+            </div>
+          </div>
+        </div>
         <Footer />
         <link rel={"stylesheet"} href={"./style.css"} />
         <div id="particles-js"></div>
@@ -79,3 +108,4 @@ class Home extends Component {
 }
 
 export default Home;
+

@@ -154,3 +154,13 @@ exports.getRecentEvent = (req, res) => {
         console.log("Records sent!");
     });
 }
+
+exports.getEventOfUser = (req, res) => {
+    const { userName } = req.params;
+    const sql = `SELECT * FROM GAMESYSTEM.TOURNAMENTS WHERE id = (SELECT tour_id FROM GAMESYSTEM.PLAYERS WHERE userName = ?)`;
+    let values = [userName];
+    con.query(sql, values, (err, docs) => {
+        if(err) throw err;
+        res.send(docs);
+    });
+}

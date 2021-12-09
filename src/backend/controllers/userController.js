@@ -186,3 +186,16 @@ exports.cancelRegistration = (req, res) => {
     });
     res.send({ status: 'success' });
 }
+
+exports.getAUserbyName = (req, res) => {
+    const { userName } = req.params;
+    const sql = `SELECT * FROM gamesystem.players where userName = ?`;
+    const values = [userName];
+    con.query(sql, values, function (err, result, fields) {
+        if (err) throw err;
+        res.set('Access-Control-Expose-Headers', 'X-Total-Count')
+        res.set('X-Total-Count', result.length)
+        res.send(result)
+        console.log("Records sent!");
+    });
+}

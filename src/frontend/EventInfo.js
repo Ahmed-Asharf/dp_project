@@ -6,7 +6,12 @@ import SuperTab from './SuperTab';
 import axios from 'axios';
 import './Usercard.css'
 import Slider from './Slider';
-import picture from '../images/thor.PNG';
+import Footer from './Footer';
+import { Cards } from './Cards';
+
+const urls = ["https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", background]
+
+
 class Event extends Component {
     constructor(props) {
         super(props);
@@ -48,7 +53,7 @@ class Event extends Component {
             url: `http://localhost:4500/playerprofile/${name}`
         });
         this.setState({ user: [...this.state.user, ...res.data.data.docs] })
-        console.log("userobject:", this.state.clickedEvent[0]);
+        console.log("userobject:", this.state.user[0]);
     }
     drawerEvent = () => {
         this.setState((prevState) => {
@@ -111,67 +116,122 @@ class Event extends Component {
             backdrop = <Backdrop click={this.backdropEvent} />
         }
         return (
-            <div>
-                {this.state.user.map((user, index) => (
-                    <div style={{ backgroundImage: `url(${background})` }}>
-                        <Header drawerEvent={this.drawerEvent} />
-                        <div style={{ display: "flex", width: "95%", justifyContent: "space-between", marginTop: 40 }}>
-                            <text></text>
-                            <div className="card" style={{ width: 200, backgroundColor: "white", borderRadius: 10, alignItems: "center" }}>
-                                <div className="avatar">
-                                    <img
-                                        src={picture}
-                                        className="card-img-top"
-                                        alt=""
-                                    />
-                                </div>
-                                <h5 className="card-title">
-                                    {user.userName}
-                                </h5>
-                                <p className="card-text">
-                                    {user.EMAIL}
-                                </p>
-                            </div>
-                        </div>
-                        <div style={{ marginTop: 50, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <div style={{ width: "90%", height: 200, backgroundColor: "pink", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                                {/* here */}
-                                {
-                                    this.state.clickedEvent.map((event, index) => (
-                                        <div style={{ display: "flex", width: "100%", height: 150, flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
-                                            <text style={{ color: "white", fontSize: 20 }}>{event.STARTDATE}</text>
-                                            <text style={{ color: "white" }}>{event.ENDDATE}</text>
-                                            <text style={{ color: "white" }}>{event.description}</text>
-                                            {
-                                                user.tour_id == null ? this.state.count == event.maxplayers ? <button class="btn btn-outline-secondary">Registrations closed!</button> :
-                                                <button class="btn btn-outline-secondary" onClick={this.registerUser}>Register</button> :
-                                                user.tour_id == this.state.id ?
-                                                    <button class="btn btn-outline-secondary" onClick={this.cancelRegistration}>Cancel Registration</button> :
-                                                    <button class="btn btn-outline-secondary">Already Registered in a tournament</button>
-                                                        
-                                            }
+            // <div>
+            //     <div style={{ backgroundImage: `url(${background})` }}>
+            //         <Header drawerEvent={this.drawerEvent} logged={true} />
+            //         <div style={{ marginTop: 50, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            //             <div style={{ width: "90%", height: 200, backgroundColor: "pink", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            //                 {/* here */}
+            //                 {
+            //                     this.state.clickedEvent.map((event, index) => (
+            //                         <div style={{ display: "flex", width: "100%", height: 150, flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
+            //                             <text style={{ color: "white", fontSize: 20 }}>{event.STARTDATE}</text>
+            //                             <text style={{ color: "white" }}>{event.ENDDATE}</text>
+            //                             <text style={{ color: "white" }}>{event.description}</text>
+            //                             {
+            //                                 this.state.name == "undefined" ? <button class="btn btn-outline-secondary" onClick={this.registerUser}>Login to Register</button> :
+            //                                     this.state.user.map((user, index) => (
+            //                                         user.tour_id == null ? this.state.count == event.maxplayers ? <button class="btn btn-outline-secondary">Registrations closed!</button> :
+            //                                             <button class="btn btn-outline-secondary" onClick={this.registerUser}>Register</button> :
+            //                                             user.tour_id == this.state.id ?
+            //                                                 <button class="btn btn-outline-secondary" onClick={this.cancelRegistration}>Cancel Registration</button> :
+            //                                                 <button class="btn btn-outline-secondary">Already Registered in a tournament</button>
+            //                                     ))
 
-                                        </div>
-                                    ))
-                                }
-                            </div>
+            //                             }
+
+            //                         </div>
+            //                     ))
+            //                 }
+            //             </div>
+            //         </div>
+            //         <div style={{ position: "absolute", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            //             <SuperTab show={this.state.sideDrawerOpen} />
+            //         </div>
+            //         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 100 }}>
+            //             <div style={{ width: "80%" }}>
+            //                 <text style={{ color: "#ffbf00", fontSize: 20, fontWeight: "bold" }}>More On Going Events</text>
+            //             </div>
+            //         </div>
+            //         <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            //             <div style={{ width: "80%" }}>
+            //                 <Slider id={this.state.id} />
+            //             </div>
+            //         </div>
+            //         {backdrop}
+            //     </div>
+            // </div>
+            <div>
+                <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />
+                <Header drawerEvent={this.drawerEvent} />
+                <div style={{ height: "120vh", backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.4)), url('${background}')`, backgroundSize: "cover" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <div style={{ width: "90%", height: 200, backgroundColor: "pink", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                            {/* here */}
+                            {
+                                this.state.clickedEvent.map((event, index) => (
+                                    <div style={{ display: "flex", width: "100%", height: 150, flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
+                                        <text style={{ color: "white", fontSize: 20 }}>{event.STARTDATE}</text>
+                                        <text style={{ color: "white" }}>{event.ENDDATE}</text>
+                                        <text style={{ color: "white" }}>{event.description}</text>
+                                        {
+                                            this.state.name == "undefined" ? <button class="btn btn-outline-secondary" onClick={this.registerUser}>Login to Register</button> :
+                                                this.state.user.map((user, index) => (
+                                                    user.tour_id == null ? this.state.count == event.maxplayers ? <button class="btn btn-outline-secondary">Registrations closed!</button> :
+                                                        <button class="btn btn-outline-secondary" onClick={this.registerUser}>Register</button> :
+                                                        user.tour_id == this.state.id ?
+                                                            <button class="btn btn-outline-secondary" onClick={this.cancelRegistration}>Cancel Registration</button> :
+                                                            <button class="btn btn-outline-secondary">Already Registered in a tournament</button>
+                                                ))
+
+                                        }
+
+                                    </div>
+                                ))
+                            }
                         </div>
-                        <div style={{ position: "absolute", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <SuperTab show={this.state.sideDrawerOpen} />
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 100 }}>
-                            <div style={{ width: "80%" }}>
-                                <text style={{ color: "#ffbf00", fontSize: 20, fontWeight: "bold" }}>More On Going Events</text>
-                            </div>
+                    </div>
+                </div>
+                {/* text */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 150, backgroundColor: "#041E42", width: "100%" }}>
+                    <div style={{ width: "90%", marginBottom: 100 }}>
+                        <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B", marginTop: 100 }}>
+                            <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20, color: "white" }}>More on going events</text>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <div style={{ width: "80%" }}>
-                                <Slider name={user.userName} id={this.state.id} />
+                                {this.state.clickedEvent.map((event, index) => (
+                                    <Slider id={1} />
+                                ))}
                             </div>
                         </div>
-                        {backdrop}
                     </div>
-                ))}
+                </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 50 }}>
+                    <div style={{ width: "90%" }}>
+                        <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B" }}>
+                            <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20 }}>Explore More</text>
+                        </div>
+                    </div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <div style={{ width: "90%", marginTop: 40 }}>
+                        <div style={{ display: "flex", flexDirection: "row" }}>
+                            {urls.map((url, index) => (
+                                <Cards url={url} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <Footer />
+                <link rel={"stylesheet"} href={"./style.css"} />
+                <div id="particles-js"></div>
+                <script type={"text/javascript"} src={"./particles.js"}></script>
+                <script type={"text/javascript"} src={"./app.js"}></script>
+                <div style={{ position: "absolute", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <SuperTab show={this.state.sideDrawerOpen} />
+                </div>
+                {backdrop}
             </div>
         );
     }

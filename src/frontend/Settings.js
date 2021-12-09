@@ -12,8 +12,7 @@ import Slider from './Slider';
 import picture from '../images/thor.PNG';
 import { Cards } from './Cards';
 import Footer from './Footer';
-import Participation from './Participation';
-import LeaderBoard from './LeaderBoard';
+import Settingtab from './Settingtab';
 const urls = ["https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", background]
 
 class Dashboard extends Component {
@@ -72,17 +71,9 @@ class Dashboard extends Component {
                   {/* current event info */}
                   <div style={{ display: "flex", flexDirection: "row" }}>
                     <Usercard name={user.userName} />
-                    <Participation name={user.userName} />
+                    <Settingtab name={user.userName}/>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 50 }}>
-              <div style={{ width: "90%" }}>
-                <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B" }}>
-                  <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20 }}>Recent Event</text>
-                </div>
-                <CurrentEvent />
               </div>
             </div>
             {/* text */}
@@ -94,7 +85,7 @@ class Dashboard extends Component {
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <div style={{ width: "80%" }}>
                     {this.state.recentEvent.map((event, index) => (
-                      <Slider id={event.id} name={user.userName}/>
+                      <Slider id={event.id} />
                     ))}
                   </div>
                 </div>
@@ -116,7 +107,6 @@ class Dashboard extends Component {
                 </div>
               </div>
             </div>
-            <LeaderBoard />
             <Footer />
             <link rel={"stylesheet"} href={"./style.css"} />
             <div id="particles-js"></div>

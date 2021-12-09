@@ -4,6 +4,7 @@ import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 import axios from 'axios';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
+import background from '../images/csgo.jpeg';
 const images = ['../images/bg.jpeg', '../images/thor.PNG'];
 
 
@@ -11,8 +12,9 @@ class Slider extends React.Component {
   constructor(props) {
     super(props);
     console.log(this.props.id);
+    console.log("name: ", this.props.name);
     this.state = {
-      events: []
+      events: [],
     }
   }
   componentDidMount = async () => {
@@ -32,8 +34,8 @@ class Slider extends React.Component {
             {this.state.events.map((event, index) => (
              event.id != this.props.id ?
               <div className="each-slide" key={index}>
-                <div style={{ height: 400, backgroundImage: `url(${"../images/" + event.IMAGE})`, alignItems: "center", justifyContent: "center" }}>
-                  <div style={{ height: "50%", marginTop: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "column" }}>
+                <div style={{ height: 400, backgroundImage: `url(${background})`, alignItems: "center", justifyContent: "center", alignItems:"center"}}>
+                  <div style={{padding:40, height:"100%", marginTop: 40, display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "column" }}>
                     <span style={{ color: "white" }}>{event.id}</span>
                     <span style={{ color: "white" }}>{event.PRIZE}</span>
                     <span style={{ color: "white" }}>{event.STARTDATE}</span>
