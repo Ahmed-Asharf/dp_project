@@ -32,6 +32,7 @@
     "react-scripts": "4.0.3",
     "react-slideshow-image": "^3.6.0",
     "stream": "^0.0.2",
+    "styled-components": "^5.3.3",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

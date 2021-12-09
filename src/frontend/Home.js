@@ -7,7 +7,7 @@ import Signup from './Signup';
 import SuperTab from './SuperTab';
 import Slider from './Slider';
 import axios from 'axios';
-
+import Footer from './Footer';
 class Home extends Component {
   state = {
     sideDrawerOpen: false,
@@ -64,6 +64,7 @@ class Home extends Component {
         {this.state.recentEvent.map((event, index) => (
           <Slider id={event.id} />
         ))}
+        <Footer />
         <link rel={"stylesheet"} href={"./style.css"} />
         <div id="particles-js"></div>
         <script type={"text/javascript"} src={"./particles.js"}></script>
