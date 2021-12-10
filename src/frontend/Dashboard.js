@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from './Header'
-import CurrentEvent from './CurrentEvent';
+import CurrentSlider from './CurrentSlider';
 import background from '../images/bg.jpeg';
 import Backdrop from './Backdrop';
 import Signup from './Signup';
@@ -14,6 +14,7 @@ import { Cards } from './Cards';
 import Footer from './Footer';
 import Participation from './Participation';
 import LeaderBoard from './LeaderBoard';
+
 const urls = ["https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", background]
 
 class Dashboard extends Component {
@@ -78,11 +79,11 @@ class Dashboard extends Component {
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 50 }}>
-              <div style={{ width: "90%" }}>
+              <div style={{ width: "80%" }}>
                 <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B" }}>
                   <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20 }}>Recent Event</text>
                 </div>
-                <CurrentEvent />
+                <CurrentSlider name={user.userName} />
               </div>
             </div>
             {/* text */}

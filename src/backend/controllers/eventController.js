@@ -31,7 +31,7 @@ exports.getNumberOfRegisteredPlayers = (req, res) => {
 }
 
 exports.getEvents = (req, res) => {
-    con.query("SELECT * FROM gamesystem.TOURNAMENTS", function (err, result, fields) {
+    con.query("SELECT * FROM gamesystem.TOURNAMENTS WHERE STARTDATE <= NOW()", function (err, result, fields) {
         if (err) throw err;
         res.set('Access-Control-Expose-Headers', 'X-Total-Count')
         res.set('X-Total-Count', result.length)
@@ -118,7 +118,7 @@ exports.updateEvent = (req, res) => {
 }
 
 exports.getEventInfo = (req, res) => {
-    const sql = `SELECT * FROM gamesystem.TOURNAMENTS T LEFT OUTER JOIN gamesystem.TOUR_INFO TI ON T.ID = TI.TOUR_ID`;
+    const sql = `SELECT * FROM gamesystem.TOURNAMENTS T LEFT OUTER JOIN gamesystem.TOUR_INFO TI ON T.ID = TI.TOUR_ID WHERE T.STARTDATE <= NOW()`;
     con.query(sql, function (err, result, fields) {
         if (err) throw err;
         res.set('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -162,5 +162,17 @@ exports.getEventOfUser = (req, res) => {
     con.query(sql, values, (err, docs) => {
         if(err) throw err;
         res.send(docs);
+    });
+}
+
+exports.getUpcoming = (req, res) => {
+    const sql = `SELECT * FROM gamesystem.TOURNAMENTS T LEFT OUTER JOIN gamesystem.TOUR_INFO TI ON T.ID = TI.TOUR_ID WHERE T.STARTDATE > NOW()`;
+    con.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        res.set('Access-Control-Expose-Headers', 'X-Total-Count')
+        res.set('X-Total-Count', result.length)
+
+        res.send(result)
+        console.log("Records sent!");
     });
 }

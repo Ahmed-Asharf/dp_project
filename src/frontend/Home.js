@@ -9,6 +9,8 @@ import Slider from './Slider';
 import axios from 'axios';
 import Footer from './Footer';
 import { Cards } from './Cards';
+import CurrentSlider from './CurrentSlider';
+
 const urls = ["https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", background]
 class Home extends Component {
   state = {
@@ -57,16 +59,16 @@ class Home extends Component {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 50 }}>
           <div style={{ width: "90%" }}>
             <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B" }}>
-              <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20 }}>Recent Event</text>
+              <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20 }}>Upcoming Events</text>
             </div>
-            <CurrentEvent />
+            <CurrentSlider/>
           </div>
         </div>
         {/* text */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 150, backgroundColor: "#041E42", width: "100%" }}>
           <div style={{ width: "90%", marginBottom: 100 }}>
             <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B", marginTop: 100 }}>
-              <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20, color: "white" }}>More on going events</text>
+              <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20, color: "white" }}>Ongoing events</text>
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
               <div style={{ width: "80%" }}>

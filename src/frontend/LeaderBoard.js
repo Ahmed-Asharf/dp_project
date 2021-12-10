@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./LeaderBoard.css";
-
+import axios from 'axios';
 const listOfArray = [
   {
     Rank: 1,
@@ -101,37 +101,51 @@ const listOfArray = [
   },
 ];
 
-const LeaderBoard = () => {
-  const [users, setUsers] = useState(listOfArray);
+const LeaderBoard = (props) => {
+  const [teams, setTeams] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [prevdisable, setprevdisable] = useState(true);
   const [nextdisable, setnextdisable] = useState(false);
   const perPage = 10;
+  useEffect(() => {
+    const api = async () => {
+      console.log("event id: ", props.id);
+      let res = await axios({
+        url: `http://localhost:4500/leaderboard/${props.id}`
+      })
+      console.log(res.data);
+      setTeams(res.data)
+      console.log("teams", teams);
+    };api();
+  }, [])
   const pagesVisited = pageNumber * perPage;
-  const displayUsers = users
+  const displayUsers = teams
     .slice(pagesVisited, pagesVisited + perPage)
-    .map((lis) => {
+    .map((lis, index) => {
       return (
         <tr>
-          <td>{lis.Rank}</td>
-          <td>Fighter</td>
-          <td>25</td>
+          <td>{index+1}</td>
+          <td>{lis.TEAM_NAME}</td>
+          <td>{lis.SCORE}</td>
         </tr>
       );
     });
-  const pageCount = Math.ceil(listOfArray / perPage);
+  const pageCount = Math.ceil(teams / perPage);
   const nextBtn = (e) => {
     setprevdisable(false);
     setPageNumber(pageNumber + 1);
-    if ((pageNumber + 2) * perPage >= listOfArray.length) setnextdisable(true);
+    if ((pageNumber + 2) * perPage >= teams.length) setnextdisable(true);
   };
   const prevBtn = (e) => {
     setnextdisable(false);
     setPageNumber(pageNumber - 1);
-    if ((pageNumber - 2) * perPage <= listOfArray.length) setprevdisable(true);
+    if ((pageNumber - 2) * perPage <= teams.length) setprevdisable(true);
   };
   return (
-    <>
+    <div>
+      {
+        teams.length != 0 ?
+        <div>
       <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B", marginLeft: "5%", marginTop: 50 }}>
         <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20 }}>Leaderboard</text>
       </div>
@@ -191,7 +205,10 @@ const LeaderBoard = () => {
           next
         </button>
       </div>
-    </>
+      </div>
+      :<></>
+     }
+    </div>
   );
 };
 

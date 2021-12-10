@@ -8,7 +8,8 @@ import './Usercard.css'
 import Slider from './Slider';
 import Footer from './Footer';
 import { Cards } from './Cards';
-
+import Leaderboard from './LeaderBoard';
+import CurrentSlider from './CurrentSlider';
 const urls = ["https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", background]
 
 
@@ -21,10 +22,29 @@ class Event extends Component {
             id: 0,
             name: "",
             user: [],
-            count: 0
+            count: 0,
+            leaderboard: [],
+            sideDrawerOpen: false,
+        }
+    }
+    drawerEvent = () => {
+        this.setState((prevState) => {
+            return { sideDrawerOpen: !prevState.sideDrawerOpen }
+        });
+    }
+
+    backdropEvent = () => {
+        this.setState({ sideDrawerOpen: false });
+    };
+    componentDidUpdate() {
+        const id = this.props.location.search.split("id=")[1].split("&")[0];
+        if (this.state.id != id) {
+            this.setState({id: id});
+            this.componentDidMount();
         }
     }
     async componentDidMount() {
+        window.scrollTo(0, 0);
         const id = this.props.location.search.split("id=")[1].split("&")[0];
         const name = this.props.location.search.split("name=")[1];
         this.state.id = id;
@@ -47,12 +67,12 @@ class Event extends Component {
             method: "GET",
             url: `http://localhost:4500/eventinfo/${id}`
         });
-        this.setState({ clickedEvent: [...this.state.clickedEvent, ...res.data] })
+        this.setState({ clickedEvent: res.data })
         res = await axios({
             method: "GET",
             url: `http://localhost:4500/playerprofile/${name}`
         });
-        this.setState({ user: [...this.state.user, ...res.data.data.docs] })
+        this.setState({ user: res.data.data.docs })
         console.log("userobject:", this.state.user[0]);
     }
     drawerEvent = () => {
@@ -116,83 +136,60 @@ class Event extends Component {
             backdrop = <Backdrop click={this.backdropEvent} />
         }
         return (
-            // <div>
-            //     <div style={{ backgroundImage: `url(${background})` }}>
-            //         <Header drawerEvent={this.drawerEvent} logged={true} />
-            //         <div style={{ marginTop: 50, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            //             <div style={{ width: "90%", height: 200, backgroundColor: "pink", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            //                 {/* here */}
-            //                 {
-            //                     this.state.clickedEvent.map((event, index) => (
-            //                         <div style={{ display: "flex", width: "100%", height: 150, flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
-            //                             <text style={{ color: "white", fontSize: 20 }}>{event.STARTDATE}</text>
-            //                             <text style={{ color: "white" }}>{event.ENDDATE}</text>
-            //                             <text style={{ color: "white" }}>{event.description}</text>
-            //                             {
-            //                                 this.state.name == "undefined" ? <button class="btn btn-outline-secondary" onClick={this.registerUser}>Login to Register</button> :
-            //                                     this.state.user.map((user, index) => (
-            //                                         user.tour_id == null ? this.state.count == event.maxplayers ? <button class="btn btn-outline-secondary">Registrations closed!</button> :
-            //                                             <button class="btn btn-outline-secondary" onClick={this.registerUser}>Register</button> :
-            //                                             user.tour_id == this.state.id ?
-            //                                                 <button class="btn btn-outline-secondary" onClick={this.cancelRegistration}>Cancel Registration</button> :
-            //                                                 <button class="btn btn-outline-secondary">Already Registered in a tournament</button>
-            //                                     ))
-
-            //                             }
-
-            //                         </div>
-            //                     ))
-            //                 }
-            //             </div>
-            //         </div>
-            //         <div style={{ position: "absolute", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            //             <SuperTab show={this.state.sideDrawerOpen} />
-            //         </div>
-            //         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 100 }}>
-            //             <div style={{ width: "80%" }}>
-            //                 <text style={{ color: "#ffbf00", fontSize: 20, fontWeight: "bold" }}>More On Going Events</text>
-            //             </div>
-            //         </div>
-            //         <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-            //             <div style={{ width: "80%" }}>
-            //                 <Slider id={this.state.id} />
-            //             </div>
-            //         </div>
-            //         {backdrop}
-            //     </div>
-            // </div>
             <div>
                 <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />
-                <Header drawerEvent={this.drawerEvent} />
+                {
+                    this.state.name != "undefined" ? <Header drawerEvent={this.drawerEvent} logged={true} name={this.state.name} /> : <Header drawerEvent={this.drawerEvent} logged={false} name={this.state.name} />
+                }
                 <div style={{ height: "120vh", backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.4)), url('${background}')`, backgroundSize: "cover" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <div style={{ width: "90%", height: 200, backgroundColor: "pink", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                            {/* here */}
+                        <div style={{ marginTop: 100, width: "90%", height: "85vh", backgroundColor: "white", display: "flex", justifyContent: "space-between", borderRadius: 10 }}>
                             {
                                 this.state.clickedEvent.map((event, index) => (
-                                    <div style={{ display: "flex", width: "100%", height: 150, flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
-                                        <text style={{ color: "white", fontSize: 20 }}>{event.STARTDATE}</text>
-                                        <text style={{ color: "white" }}>{event.ENDDATE}</text>
-                                        <text style={{ color: "white" }}>{event.description}</text>
-                                        {
-                                            this.state.name == "undefined" ? <button class="btn btn-outline-secondary" onClick={this.registerUser}>Login to Register</button> :
-                                                this.state.user.map((user, index) => (
-                                                    user.tour_id == null ? this.state.count == event.maxplayers ? <button class="btn btn-outline-secondary">Registrations closed!</button> :
-                                                        <button class="btn btn-outline-secondary" onClick={this.registerUser}>Register</button> :
-                                                        user.tour_id == this.state.id ?
-                                                            <button class="btn btn-outline-secondary" onClick={this.cancelRegistration}>Cancel Registration</button> :
-                                                            <button class="btn btn-outline-secondary">Already Registered in a tournament</button>
-                                                ))
+                                    <div style={{ display: "flex", width: "100%", flexDirection: "column", height: "100%", marginTop: 70 }}>
+                                        <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B", marginLeft: 50 }}>
+                                            <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20, color: "#041E42" }}>Event Info</text>
+                                        </div>
+                                        <div style={{ display: "flex", alignItems: "center", flexDirection: "column", marginTop: 30 }}>
+                                            <text style={{ color: "black", fontSize: 40, fontWeight: "bold" }}>{event.tour_name}</text>
+                                            <text style={{ color: "grey", fontSize: 20, marginTop: 20 }}>{event.STARTDATE.split("T")[0]} - {event.ENDDATE.split("T")[0]}</text>
+                                            <text style={{ color: "grey", marginTop: 20 }}>{"Prize: $" + event.PRIZE}</text>
+                                            <text style={{ color: "grey", marginTop: 10 }}>{event.TAGLINE}</text>
+                                            <text style={{ color: "grey", marginTop: 10 }}>{event.description}</text>
+                                        </div>
+                                        <div style={{ marginTop: 40, justifyContent: "center", alignItems: "center", display: "flex" }}>
+                                            {
+                                                this.state.name == "undefined" ? <button class="btn btn-outline-secondary" onClick={this.drawerEvent}>Login to Register</button> :
+                                                    this.state.user.map((user, index) => (
+                                                        user.tour_id == null ? this.state.count == event.maxplayers ? <button class="btn btn-outline-secondary">Registrations closed!</button> :
+                                                            <button class="btn btn-outline-secondary" onClick={this.registerUser}>Register</button> :
+                                                            user.tour_id == this.state.id ?
+                                                                <button class="btn btn-outline-secondary" onClick={this.cancelRegistration}>Cancel Registration</button> :
+                                                                <button class="btn btn-outline-secondary">Already Registered in a tournament</button>
+                                                    ))
 
-                                        }
-
+                                            }
+                                        </div>
                                     </div>
                                 ))
                             }
                         </div>
                     </div>
                 </div>
-                {/* text */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 50 }}>
+                    <div style={{ width: "90%" }}>
+                        <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B" }}>
+                            <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20 }}>Upcoming Events</text>
+                        </div>
+                        <CurrentSlider name={this.state.name} />
+                    </div>
+                </div>
+                {
+                    this.state.clickedEvent.map((event, index) => (
+                        <Leaderboard id={event.id} />
+                    ))
+                }
+
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 150, backgroundColor: "#041E42", width: "100%" }}>
                     <div style={{ width: "90%", marginBottom: 100 }}>
                         <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B", marginTop: 100 }}>
@@ -201,7 +198,7 @@ class Event extends Component {
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <div style={{ width: "80%" }}>
                                 {this.state.clickedEvent.map((event, index) => (
-                                    <Slider id={1} />
+                                    <Slider id={this.state.id} name={this.state.name} />
                                 ))}
                             </div>
                         </div>

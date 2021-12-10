@@ -6,7 +6,7 @@ const userController = require('./controllers/userController');
 const loginController = require('./controllers/loginController');
 const signupController = require('./controllers/signupController');
 const eventController = require('./controllers/eventController');
-
+const teamController = require('./controllers/teamController');
 
 app.use(express.json());
 app.use(cors({
@@ -36,6 +36,10 @@ app.get('/eventinfo', eventController.getEventInfo);
 app.get('/eventinfo/:id', eventController.getAnEventInfo);
 app.get('/recentEvent', eventController.getRecentEvent);
 app.get('/event/:userName', eventController.getEventOfUser);
+app.get('/upcomingEvents', eventController.getUpcoming);
+
+app.get('/leaderboard/:id', teamController.leaderboard);
+
 app.post('/signup', signupController.signup);
 
 app.post('/login', loginController.login)

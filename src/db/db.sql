@@ -54,6 +54,10 @@ create table tournaments(
     endDate timestamp,
     prize integer
 );
+
+INSERT INTO TEAMS(TEAM_ID, TEAM_NAME, SCORE) VALUES('1', 'NAVI', 5);
+ALTER TABLE TEAMS ADD COLUMN SCORE INT;
+ALTER TABLE TEAMS DROP COLUMN SCORE;
 ALTER TABLE TOURNAMENTS ADD COLUMN time_added timestamp;
 ALTER TABLE TOUR_INFO ADD COLUMN tagline varchar(100);
 ALTER TABLE TOURNAMENTS MODIFY time_added varchar(20);
@@ -98,6 +102,8 @@ alter table teams add constraint fk_tour_team  foreign key (tour_id) references 
 alter table tournaments add constraint fk_game_tour foreign key (game_id) references games(game_id) on delete cascade on update cascade;
 alter table games add constraint fk_tour_game foreign key (tour_id) references tournaments(tour_id) on delete cascade on update cascade;
 
+ALTER TABLE TOURNAMENTS ADD COLUMN tour_name VARCHAR(30);
+UPDATE TOURNAMENTS SET tour_name = 'CSGO Battles' where game_id is null;
 
-
+select * from tournaments;
 

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import InputField from "../components/InputField";
-import {Link, Redirect} from 'react-router-dom';
+import {Link, Redirect, useHistory} from 'react-router-dom';
+
 export default function Login() {
+  const history = useHistory();
   const [data, setData] = useState({ email: "", password: "" });
   const [redirect, setRedirect] = useState(false);
   const handleChange = (e) => {
@@ -61,7 +63,7 @@ export default function Login() {
           >
             Login
           </button>
-          {redirect && <Redirect to={{ pathname: `/dashboard?name=${data.email}` }} />}
+          {redirect && history.push(`/dashboard?name=${data.email}`)}
         </div>
       </form>
     </>

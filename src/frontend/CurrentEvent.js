@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { env } from 'process';
 import background from '../images/csgo2.jpeg';
+import { withRouter } from 'react-router-dom';
+
 class CurrentEvent extends Component {
     constructor() {
         super()
@@ -19,47 +21,48 @@ class CurrentEvent extends Component {
         });
         this.setState({ recentEvent: [...this.state.recentEvent, ...res.data] })
     }
+    navigate = (id, name) => {
+        this.props.history.push(`/event?id=${id}&name=${name}`);
+    }
     render() {
         return (
-            <>
-            {this.state.recentEvent.map((event, index) => (
-            <div style={{ backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.6)), url('${background}')`, backgroundSize:"cover",  borderRadius: 10}}>
+            <div style={{ backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.6)), url('${background}')`, backgroundSize: "cover", borderRadius: 10, height: "80vh" }}>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: 50 }}>
                     <div style={{ width: "60%", display: "flex", justifyContent: "center" }}>
-                       
-                            <div style={{ width: "100%" }}>
-                                <div style={{ display: "flex", justifyContent: "center" }}>
-                                    <img style={{ width: 140, height: 100, marginTop: 50 }} src={logo} />
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "center" }}>
-                                    <text style={{ color: "#E9072B", fontSize: 25, fontWeight: "bold", marginTop: 20 }}>Event Name: {event.id}</text>
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "center" }}>
-                                    <div style={{ marginTop: 40 }}>
-                                        <text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>{event.STARTDATE} - {event.ENDDATE}</text>
-                                    </div>
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "center" }}>
-                                    <div>
-                                        <text style={{ color: "white" }}>Karachi, Pakistan</text>
-                                    </div>
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "center" }}>
-                                    <div style={{ marginTop: 20 }}>
-                                        <text style={{ color: "white", textAlign: "center" }}>{event.TAGLINE}</text>
-                                    </div>
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "center" }}>
-                                    <div>
-                                        <button type="button" class="btn btn-outline-secondary" style={{ width: 200, height: 40, marginTop: 20 }}><text style={{ fontWeight: "bold", color: "#E9072B" }}>View Event</text></button>
-                                    </div>
+
+                        <div style={{ width: "100%" }}>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <img style={{ width: 140, height: 100, marginTop: 50 }} src={logo} />
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <text style={{ color: "#E9072B", fontSize: 25, fontWeight: "bold", marginTop: 20 }}>Event Name: {this.props.event.id}</text>
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <div style={{ marginTop: 40 }}>
+                                    <text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>{this.props.event.STARTDATE.split("T")[0]} - {this.props.event.ENDDATE.split("T")[0]}</text>
                                 </div>
                             </div>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <div>
+                                    <text style={{ color: "white" }}>Karachi, Pakistan</text>
+                                </div>
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <div style={{ marginTop: 20 }}>
+                                    <text style={{ color: "white", textAlign: "center" }}>{this.props.event.TAGLINE}</text>
+                                </div>
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <div>
+                                    <button type="button" class="btn btn-outline-secondary" style={{ width: 200, height: 40, marginTop: 20 }}><text style={{ fontWeight: "bold", color: "#E9072B" }} onClick={() => { this.navigate(this.props.event.id, this.props.name) }}>View Event</text></button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 40 }}>
                     <div style={{ width: "80%", marginBottom: 50, borderBottomColor: "#E9072B", borderBottomWidth: 3 }}>
-                        <text style={{ color: "white" }}>{event.description}</text>
+                        <text style={{ color: "white" }}>{this.props.event.description}</text>
                     </div>
                 </div>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -94,10 +97,8 @@ class CurrentEvent extends Component {
                     </div>
                 </div>
             </div>
-             ))}
-             </>
         );
     }
 }
 
-export default CurrentEvent;
+export default withRouter(CurrentEvent);
