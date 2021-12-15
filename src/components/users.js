@@ -20,8 +20,12 @@ export const UserEdit = props => (
            <TextInput source="id"/>
            <TextInput source="userName"/>
            <TextInput source="password"/>
-           <TextInput source="email"/>
+           <TextInput source="EMAIL"/>
            <TextInput source="phone"/>
+           <TextInput source="isBanned"/>
+           <TextInput source="noOfTournaments"/>
+           <TextInput source="tour_id"/>
+           <TextInput source="team_id"/>
         </SimpleForm>
     </Edit>
  );
@@ -32,7 +36,7 @@ export const UserEdit = props => (
            <TextInput source="id"/>
            <TextInput source="userName"/>
            <TextInput source="password"/>
-           <TextInput source="email"/>
+           <TextInput source="EMAIL"/>
            <TextInput source="phone"/>
         </SimpleForm>
     </Create>
@@ -42,8 +46,7 @@ export const UserList = props => (
        <Datagrid rowClick="edit">
            <TextField source="id" />
            <TextField source="userName" />
-           <TextField source="password" />
-           <EmailField source="email" />
+           <EmailField source="EMAIL" />
            <TextField source="phone" />
            <EditButton />
            <DeleteButton />

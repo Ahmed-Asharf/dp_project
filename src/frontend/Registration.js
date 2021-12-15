@@ -8,16 +8,15 @@ import './Usercard.css'
 import Slider from './Slider';
 import Footer from './Footer';
 import { Cards } from './Cards';
+import Form from './Form';
 import Leaderboard from './LeaderBoard';
 import CurrentSlider from './CurrentSlider';
-import Registration from './Registration';
-import PreviousMatches from './PreviousMatches';
-import UpcomingMatches from './UpcomingMatches';
 import { withRouter } from 'react-router-dom';
+import './Registration.css';
 const urls = ["https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", background]
 
 
-class Event extends Component {
+class Registration extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,9 +28,7 @@ class Event extends Component {
             count: 0,
             leaderboard: [],
             sideDrawerOpen: false,
-            teams: 0,
-            previous: [],
-            upcoming: []
+            loop: []
         }
     }
     drawerEvent = () => {
@@ -66,22 +63,24 @@ class Event extends Component {
         console.log("count:", this.state.count);
         res = await axios({
             method: "GET",
-            url: `http://localhost:4500/registeredTeams/${id}`
-        });
-        if (res.data.length) {
-            this.state.count = res.data[0].count;
-        }
-        res = await axios({
-            method: "GET",
             url: "http://localhost:4500/events"
         });
         this.setState({ events: [...this.state.events, ...res.data] })
         console.log(this.state.events);
         res = await axios({
             method: "GET",
+            url: "http://localhost:4500/maxplayers/" + id
+        });
+        for (let i = 0; i < res.data[0].maxplayers; i++) {
+            this.state.loop.push(i);
+        }
+        console.log("loop:", this.state.loop);
+        res = await axios({
+            method: "GET",
             url: `http://localhost:4500/eventinfo/${id}`
         });
         this.setState({ clickedEvent: [res.data] })
+        console.log("here", this.state.clickedEvent);
         res = await axios({
             method: "GET",
             url: `http://localhost:4500/playerprofile/${name}`
@@ -98,7 +97,7 @@ class Event extends Component {
     backdropEvent = () => {
         this.setState({ sideDrawerOpen: false });
     };
-    registerUser = async (e) => {
+    register = async (e) => {
         // console.log(this.state.id, this.state.name);
         // try {
         //     e.preventDefault();
@@ -120,7 +119,6 @@ class Event extends Component {
         // } catch (err) {
         //     alert(err.message);
         // }
-        this.props.history.push(`/registration?id=${this.state.id}&name=${this.state.name}`);
     }
     cancelRegistration = async (e) => {
         console.log(this.state.id, this.state.name);
@@ -156,43 +154,32 @@ class Event extends Component {
                 {
                     this.state.name != "undefined" ? <Header drawerEvent={this.drawerEvent} logged={true} name={this.state.name} /> : <Header drawerEvent={this.drawerEvent} logged={false} name={this.state.name} />
                 }
-
-                {
-                    this.state.clickedEvent.map((event, index) => (
-                        <div style={{ height: "120vh", backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.4)), url('${background}')`, backgroundSize: "cover" }}>
-                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <div style={{ marginTop: 100, width: "90%", height: "85vh", backgroundColor: "white", display: "flex", justifyContent: "space-between", borderRadius: 10 }}>
+                <div style={{ height: "120vh", backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.4)), url('${background}')`, backgroundSize: "cover" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <div style={{ marginTop: 100, width: "90%", height: "100vh", backgroundColor: "white", display: "flex", justifyContent: "space-between", borderRadius: 10 }}>
+                            {
+                                this.state.clickedEvent.map((event, index) => (
                                     <div style={{ display: "flex", width: "100%", flexDirection: "column", height: "100%", marginTop: 70 }}>
                                         <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B", marginLeft: 50 }}>
-                                            <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20, color: "#041E42" }}>Event Info</text>
+                                            <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20, color: "#041E42" }}>Event Registration</text>
                                         </div>
-                                        <div style={{ display: "flex", alignItems: "center", flexDirection: "column", marginTop: 30 }}>
-                                            <text style={{ color: "black", fontSize: 40, fontWeight: "bold" }}>{event.tour_name}</text>
-                                            <text style={{ color: "grey", fontSize: 20, marginTop: 20 }}>{event.STARTDATE.split("T")[0]} - {event.ENDDATE.split("T")[0]}</text>
-                                            <text style={{ color: "grey", marginTop: 20 }}>{"Prize: $" + event.PRIZE}</text>
-                                            <text style={{ color: "grey", marginTop: 10 }}>{event.TAGLINE}</text>
-                                            <text style={{ color: "grey", marginTop: 10 }}>{event.description}</text>
-                                        </div>
-                                        <div style={{ marginTop: 40, justifyContent: "center", alignItems: "center", display: "flex" }}>
-                                            {
-                                                this.state.name == "undefined" ? <button class="btn btn-outline-secondary" onClick={this.drawerEvent}>Login to Register</button> :
-                                                    this.state.user.map((user, index) => (
-                                                        user.tour_id == null ? this.state.teams == event.maxteams ? <button class="btn btn-outline-secondary">Registrations are closed!</button> :
-                                                            <button class="btn btn-outline-secondary" onClick={this.registerUser}>Register</button> :
-                                                            user.tour_id == this.state.id ?
-                                                                <button class="btn btn-outline-secondary" onClick={this.cancelRegistration}>Cancel Registration</button> :
-                                                                <button class="btn btn-outline-secondary">Already Registered in a tournament</button>
-                                                    ))
-
-                                            }
+                                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", marginTop: 30 }}>
+                                            <div class="ex1" style={{ display: "flex", flexDirection: "column", borderRadius: 10 }}>
+                                                <text style={{ marginLeft: "5%", color: "white", fontSize: 30, fontWeight: "bold", marginTop: 20 }}>{event.tour_name}</text>
+                                                <text style={{ marginLeft: "5%", color: "white", fontSize: 20, fontWeight: "bold" }}>{"Team Information:"}</text>
+                                                <text style={{ marginLeft: "5%", color: "white", marginTop: 20 }}>Team Name: </text>
+                                                <Form maxplayers={parseInt(event.maxplayers)} tour_id={event.id}/>
+                                                <div style={{ marginTop: 40, justifyContent: "flex-end", alignItems: "center", display: "flex", padding: 20 }}>
+                                                    <button class="btn btn-outline-secondary" style={{ backgroundColor: "#E9072B", color: "white", marginRight: "5%" }} onClick={this.register}>Submit</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                ))
+                            }
                         </div>
-                    ))
-                }
-
+                    </div>
+                </div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 50 }}>
                     <div style={{ width: "90%" }}>
                         <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B" }}>
@@ -203,11 +190,7 @@ class Event extends Component {
                 </div>
                 {
                     this.state.clickedEvent.map((event, index) => (
-                        <>
-                        <UpcomingMatches id={event.id}/>
-                        <PreviousMatches id={event.id}/>
                         <Leaderboard id={event.id} />
-                        </>
                     ))
                 }
 
@@ -255,4 +238,4 @@ class Event extends Component {
     }
 }
 
-export default withRouter(Event);
+export default withRouter(Registration);

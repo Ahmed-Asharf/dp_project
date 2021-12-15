@@ -14,7 +14,7 @@ class EventCard extends Component {
             method: "GET",
             url: "http://localhost:4500/eventinfo/" + this.props.tour_id
         });
-        this.setState({ event: [...this.state.event, ...res.data] })
+        this.setState({ event: [...this.state.event, ...[res.data]] })
     }
     render() {
         return (

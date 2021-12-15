@@ -5,6 +5,7 @@ import Admin from './frontend/Admin';
 import Home from './frontend/Home';
 import Dashboard from './frontend/Dashboard';
 import Event from './frontend/EventInfo';
+import Registration from './frontend/Registration';
 import Settings from './frontend/Settings';
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/event" component={Event} />
             <Route path="/settings" component={Settings} />
+            <Route path="/registration" component={Registration} />
           </Switch>
         </div>
       </BrowserRouter>

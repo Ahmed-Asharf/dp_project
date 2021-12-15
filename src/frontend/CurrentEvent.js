@@ -26,7 +26,7 @@ class CurrentEvent extends Component {
     }
     render() {
         return (
-            <div style={{ backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.6)), url('${background}')`, backgroundSize: "cover", borderRadius: 10, height: "80vh" }}>
+            <div style={{ backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.6)), url('${this.props.event.IMAGE}')`, backgroundSize: "cover", borderRadius: 10, height: "80vh" }}>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: 50 }}>
                     <div style={{ width: "60%", display: "flex", justifyContent: "center" }}>
 

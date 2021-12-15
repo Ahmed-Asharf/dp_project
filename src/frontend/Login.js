@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import InputField from "../components/InputField";
-import {Link, Redirect, useHistory} from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 
 export default function Login() {
   const history = useHistory();
@@ -14,7 +14,7 @@ export default function Login() {
 
   const handleFormSubmit = async (e) => {
     try {
-        console.log(data);
+      console.log(data);
       e.preventDefault();
       const res = await axios({
         method: "POST",

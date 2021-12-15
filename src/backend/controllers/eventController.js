@@ -1,14 +1,4 @@
-var mysql = require('mysql');
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password",
-});
-
-con.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
-});
+const con = require('../connect');
 
 const sendResponse = (message, statusCode, res, isStatus) => {
     return res.status(statusCode).json({
@@ -75,45 +65,40 @@ exports.addEvent = (req, res) => {
 
     let sql = `insert into gamesystem.tournaments(id,startDate,endDate,prize, image, time_added) values (?)`;
 
-    let values = [id, STARTDATE, ENDDATE, PRIZE, IMAGE, Date.now().toString()];
-    console.log(values);
+    let values = [id, STARTDATE, ENDDATE, PRIZE, IMAGE.src, Date.now().toString()];
     con.query(sql, [values], (err, docs) => {
-        if (err) {
-            return sendResponse(err.message, 400, res, 'fail');
-        }
+       if(err) throw err;
     });
     sql = `insert into gamesystem.tour_info values (?)`;
     values = [id, description, TAGLINE]
     con.query(sql, [values], (err, docs) => {
-        if (err) {
-            return sendResponse(err.message, 400, res, 'fail');
-        }
-        return sendResponse(true, 201, res, 'success');
+        if(err) throw err;
     });
 }
 
 exports.updateEvent = (req, res) => {
-    const { startDate, endDate, prize, game_id, IMAGE, DESCRIPTION } = req.body;
+    console.log(req.body);
+    const { STARTDATE, ENDDATE, PRIZE, game_id, IMAGE, description } = req.body;
     const { id } = req.params;
     let sql = `update gamesystem.tournaments set startDate = ?, endDate = ?, prize = ?, game_id = ?, image = ? where id = ?`;
 
-    let values = [startDate, endDate, prize, game_id, id, IMAGE];
+    let values = [STARTDATE, ENDDATE, PRIZE, game_id, IMAGE, id];
 
     con.query(sql, values, (err, docs) => {
-        if (docs.affectedRows === 0 || err) {
-            return sendResponse(false, 400, res, 'fail');
-        }
-        return sendResponse(true, 200, res, 'success');
+        // if (docs.affectedRows === 0 || err) {
+        //     return sendResponse(false, 400, res, 'fail');
+        // }
+        if(err) throw err;
     });
-    sql = `update gamesystem.tour_info set description = ? where id = ?`;
-
-    values = [DESCRIPTION];
+    sql = `update gamesystem.tour_info set description = ? where tour_id = ?`;
+    const tour_id = id;
+    values = [description, tour_id];
 
     con.query(sql, values, (err, docs) => {
-        if (docs.affectedRows === 0 || err) {
-            return sendResponse(false, 400, res, 'fail');
-        }
-        return sendResponse(true, 200, res, 'success');
+        // if (docs.affectedRows === 0 || err) {
+        //     return sendResponse(false, 400, res, 'fail');
+        // }
+        if(err) throw err;
     });
 }
 
@@ -139,7 +124,7 @@ exports.getAnEventInfo = (req, res) => {
         res.set('Access-Control-Expose-Headers', 'X-Total-Count')
         res.set('X-Total-Count', result.length)
 
-        res.send(result)
+        res.send(result[0])
         console.log("Records sent!");
     });
 }
@@ -174,5 +159,26 @@ exports.getUpcoming = (req, res) => {
 
         res.send(result)
         console.log("Records sent!");
+    });
+}
+
+exports.getMaxplayers = (req, res) => {
+    const { id } = req.params;
+    const sql = `SELECT maxplayers FROM GAMESYSTEM.TOURNAMENTS WHERE id = ?`;
+    let values = [id];
+    con.query(sql, values, (err, docs) => {
+        if(err) throw err;
+        res.send(docs);
+    });
+}
+
+exports.getTeams = (req, res) => {
+    const { id } = req.params;
+    let sql = `SELECT COUNT(id) AS count FROM gamesystem.TEAMS GROUP BY tour_id HAVING tour_id = ?`;
+    let values = [id];
+    con.query(sql, values, (err, docs) => {
+        if (err) throw err;
+        res.send(docs);
+        console.log("count sent!");
     });
 }

@@ -1,15 +1,5 @@
 const axios = require('axios');
-var mysql = require('mysql');
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password",
-});
-
-con.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
-});
+const con = require('../connect');
 
 const sendResponse = (message, statusCode, res, isStatus) => {
     return res.status(statusCode).json({
@@ -31,14 +21,15 @@ exports.getUsers = (req, res) => {
 
 exports.updateUser = (req, res) => {
     console.log('here', req.body);
-    let id = String(req.body.id);
+    let {id} = req.params;
+    let id_ = String(req.body.id);
     let userName = String(req.body.userName);
-    let email = String(req.body.email);
+    let email = String(req.body.EMAIL);
     let password = String(req.body.password);
     let phone = String(req.body.phone);
     let isBanned = req.body.isBanned;
     let noOfTournaments = req.body.noOfTournaments;
-    con.query("UPDATE gamesystem.players SET userName = '" + userName + "', email = '" + email + "', password = '" + password + "', isBanned = '" + isBanned + "', phone = '" + phone + "', noOfTournaments = '" + noOfTournaments + "'  WHERE id = '" + id + "';", function (err, result, fields) {
+    con.query("UPDATE gamesystem.players SET id = '" + id_ + "', userName = '" + userName + "', email = '" + email + "', password = '" + password + "', isBanned = '" + isBanned + "', phone = '" + phone + "', noOfTournaments = '" + noOfTournaments + "'  WHERE id = '" + id + "';", function (err, result, fields) {
         if (err) throw err;
         console.log("new record added to db");
     });
@@ -53,7 +44,7 @@ exports.getAUser = (req, res) => {
         if (err) throw err;
         res.set('Access-Control-Expose-Headers', 'X-Total-Count')
         res.set('X-Total-Count', result.length)
-        res.send(result)
+        res.send(result[0])
         console.log("Records sent!");
     });
 }

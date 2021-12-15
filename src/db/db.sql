@@ -27,6 +27,26 @@ create table tour_info(
    description varchar(500),
    primary key(id)
 );
+SELECT * FROM TEAMS;
+TRUNCATE TEAMS;
+
+SELECT * FROM MATCHES;
+CREATE TABLE MATCHES(
+   id varchar(5),
+   teamA varchar(50),
+   teamB varchar(50),
+   tour_id varchar(5),
+   winner varchar(50),
+   match_date date
+);
+
+DROP TABLE MATCHES;
+select * from matches;
+DELETE FROM MATCHES WHERE TEAMB = 'PAPI';
+INSERT INTO MATCHES VALUES('1', 'NAVI', 'PAPI', '1', NULL, '2021-01-01');
+
+
+ALTER TABLE MATCHES ADD COLUMN id varchar(5) primary key;
 ALTER TABLE TOUR_INFO RENAME COLUMN ID TO TOUR_ID;
 create table players (
 	id varchar(5),
@@ -54,8 +74,13 @@ create table tournaments(
     endDate timestamp,
     prize integer
 );
-
+SELECT * FROM TOUR_INFO;
+ALTER TABLE TEAMS RENAME COLUMN ID TO id;
+UPDATE TEAMS SET TOUR_ID = '1' WHERE TEAM_ID = '1';
 INSERT INTO TEAMS(TEAM_ID, TEAM_NAME, SCORE) VALUES('1', 'NAVI', 5);
+INSERT INTO TEAMS(TEAM_ID, TEAM_NAME, SCORE) VALUES('2', 'VITALITY', 2);
+UPDATE TEAMS SET TOUR_ID = '15' WHERE TEAM_ID = 1 OR TEAM_ID = 2;
+ALTER TABLE TOURNAMENTS RENAME COLUMN PLAYERs_PER_TEAM TO maxteams;
 ALTER TABLE TEAMS ADD COLUMN SCORE INT;
 ALTER TABLE TEAMS DROP COLUMN SCORE;
 ALTER TABLE TOURNAMENTS ADD COLUMN time_added timestamp;

@@ -38,7 +38,7 @@ class Slider extends React.Component {
           {this.state.events.map((event, index) => (
             event.id != this.props.id ?
               <div className="each-slide" key={index}>
-                <div style={{ height: 400, backgroundImage: `url(${background})`, display: "flex", alignItems: "center", justifyContent: "center", alignItems: "center" }}>
+                <div style={{ height: 400, backgroundImage: `url(${event.IMAGE})`, display: "flex", alignItems: "center", justifyContent: "center", alignItems: "center" }}>
                   <div style={{ padding: 15, height: "100%", width: "60%", height: "60%", marginTop: 40, display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "column", backgroundImage: `linear-gradient(to right bottom, rgba(255, 255, 255, 0.5), rgba(4, 30, 66, 0.7))`, borderRadius: 10 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", height: "100%", alignItems: "center", width: "80%", flexDirection: "column" }}>
                       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
