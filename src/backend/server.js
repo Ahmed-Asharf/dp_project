@@ -27,7 +27,8 @@ app.use(express.urlencoded({ extended: false }));
 app.listen(4500, (req, res) => {
   console.log("listening in port 4500...");
 });
-app.post('/regUserEvent', userController.registerUserInEvent);
+
+// app.post('/regUserEvent', userController.registerUserInEvent);
 app.post('/cancelReg', userController.cancelRegistration);
 app.get('/users', userController.getUsers);
 app.post('/users', userController.addUser);
@@ -36,6 +37,8 @@ app.get('/users/:id', userController.getAUser);
 app.get('/usersName/:userName', userController.getAUserbyName);
 app.delete('/users/:id', userController.deleteUser);
 app.get('/playerProfile/:name', userController.playerProfile);
+app.get('/prevteams/:id', userController.getTeams);
+app.get('/prevevents/:id', userController.getEvents);
 
 app.get('/registeredPlayers/:id', eventController.getNumberOfRegisteredPlayers);
 app.get('/events', eventController.getEvents);
@@ -46,6 +49,7 @@ app.get('/eventinfo', eventController.getEventInfo);
 app.get('/eventinfo/:id', eventController.getAnEventInfo);
 app.get('/recentEvent', eventController.getRecentEvent);
 app.get('/event/:userName', eventController.getEventOfUser);
+app.get('/ongoingEvents', eventController.getOngoing);
 app.get('/upcomingEvents', eventController.getUpcoming);
 app.get('/maxplayers/:id', eventController.getMaxplayers);
 app.get('/registeredTeams/:id', eventController.getTeams);
@@ -54,8 +58,11 @@ app.get('/registeredTeams/:id', eventController.getTeams);
 
 app.get('/leaderboard/:id', teamController.leaderboard);
 app.get('/teams', teamController.getTeams);
+app.get('/teams/:id', teamController.getATeam);
 app.post('/registerTeam', teamController.registerTeam);
 app.get('/teamplayers/:team_Name', teamController.getTeamplayers);
+app.get('/getid/:team_Name', teamController.getTeamByName);
+app.delete('/teams/:id', teamController.deleteTeam);
 
 app.post('/signup', signupController.signup);
 

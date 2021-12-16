@@ -23,9 +23,10 @@ export default function Signup(props) {
   const handleFormSubmit = async (e) => {
     try {
       e.preventDefault();
+      console.log(data);
       const res = await axios({
         method: "POST",
-        url: "http://localhost:4400/signup",
+        url: "http://localhost:4500/signup",
         data,
       });
       if (res.data.status === "success") {

@@ -30,12 +30,13 @@ class Slider extends React.Component {
     render() {
         return (
             <div className="slide-container">
-                <Slide>
-                    {this.state.events.map((event, index) => (
-                        <CurrentEvent event={event} name={this.props.name} />
-                    ))}
-                </Slide>
-
+                {this.state.events.length ?
+                    <Slide>
+                        {this.state.events.map((event, index) => (
+                            <CurrentEvent event={event} name={this.props.name} />
+                        )) }
+                    </Slide>
+            : <div style={{marginTop: 30}}><text style={{ fontSize: 20, marginLeft: "9%" }}>Unfortunately there are no upcoming events to show!</text></div>}
             </div>
         );
     }

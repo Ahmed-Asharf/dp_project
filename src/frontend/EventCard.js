@@ -6,15 +6,21 @@ class EventCard extends Component {
     constructor() {
         super();
         this.state = {
-            event: []
+            event: [],
+            team: []
         }
     }
     componentDidMount = async () => {
-        const res = await axios({
+        let res = await axios({
             method: "GET",
             url: "http://localhost:4500/eventinfo/" + this.props.tour_id
         });
         this.setState({ event: [...this.state.event, ...[res.data]] })
+        res = await axios({
+            method: "GET",
+            url: "http://localhost:4500/teams/" + this.props.team_id
+        });
+        this.setState({ team: [...this.state.team, ...[res.data]] })
     }
     render() {
         return (
@@ -35,6 +41,9 @@ class EventCard extends Component {
                     <header>
                         {this.state.event.map((event, index)=>(
                             <h2 className="card__title" style={{marginTop: 30, marginLeft: 20}}>{event.tour_name}</h2>
+                        ))}
+                        {this.state.team.map((team, index)=>(
+                            <h2 className="card__title" style={{marginTop: 30, marginLeft: 20}}>{team.team_Name}</h2>
                         ))}
                     </header>
                 </div>

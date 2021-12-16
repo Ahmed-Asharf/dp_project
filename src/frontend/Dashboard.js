@@ -67,19 +67,19 @@ class Dashboard extends Component {
           <div>
             <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />
             <Header drawerEvent={this.drawerEvent} logged={true} name={user.userName} />
-            <div style={{ height: "120vh", backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.4)), url('${background}')`, backgroundSize: "cover" }}>
+            <div style={{ height: "180vh", backgroundImage: `linear-gradient(to right bottom, rgba(0, 32, 91, 0.2), rgba(4, 30, 66, 0.4)), url('${background}')`, backgroundSize: "cover" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <div style={{ width: "90%" }}>
                   {/* current event info */}
                   <div style={{ display: "flex", flexDirection: "row" }}>
                     <Usercard name={user.userName} />
-                    <Participation name={user.userName} />
+                    <Participation name={user.userName} id={user.id}/>
                   </div>
                 </div>
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 50 }}>
-              <div style={{ width: "80%" }}>
+              <div style={{ width: "90%" }}>
                 <div style={{ borderLeftWidth: 6, borderLeftColor: "#E9072B" }}>
                   <text style={{ fontSize: 40, fontFamily: "Roboto", fontWeight: "bold", paddingLeft: 20 }}>Recent Event</text>
                 </div>

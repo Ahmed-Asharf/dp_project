@@ -168,9 +168,9 @@ class Event extends Component {
                                         </div>
                                         <div style={{ display: "flex", alignItems: "center", flexDirection: "column", marginTop: 30 }}>
                                             <text style={{ color: "black", fontSize: 40, fontWeight: "bold" }}>{event.tour_name}</text>
-                                            <text style={{ color: "grey", fontSize: 20, marginTop: 20 }}>{event.STARTDATE.split("T")[0]} - {event.ENDDATE.split("T")[0]}</text>
-                                            <text style={{ color: "grey", marginTop: 20 }}>{"Prize: $" + event.PRIZE}</text>
-                                            <text style={{ color: "grey", marginTop: 10 }}>{event.TAGLINE}</text>
+                                            <text style={{ color: "grey", fontSize: 20, marginTop: 20 }}>{event.startDate.split("T")[0]} - {event.endDate.split("T")[0]}</text>
+                                            <text style={{ color: "grey", marginTop: 20 }}>{"Prize: $" + event.prize}</text>
+                                            <text style={{ color: "grey", marginTop: 10 }}>{event.tagline}</text>
                                             <text style={{ color: "grey", marginTop: 10 }}>{event.description}</text>
                                         </div>
                                         <div style={{ marginTop: 40, justifyContent: "center", alignItems: "center", display: "flex" }}>

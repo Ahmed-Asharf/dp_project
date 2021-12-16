@@ -32,14 +32,11 @@ class CurrentEvent extends Component {
 
                         <div style={{ width: "100%" }}>
                             <div style={{ display: "flex", justifyContent: "center" }}>
-                                <img style={{ width: 140, height: 100, marginTop: 50 }} src={logo} />
-                            </div>
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                                <text style={{ color: "#E9072B", fontSize: 25, fontWeight: "bold", marginTop: 20 }}>Event Name: {this.props.event.id}</text>
+                                <text style={{ color: "#E9072B", fontSize: 35, fontWeight: "bold", marginTop: 20 }}>{this.props.event.tour_name}</text>
                             </div>
                             <div style={{ display: "flex", justifyContent: "center" }}>
                                 <div style={{ marginTop: 40 }}>
-                                    <text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>{this.props.event.STARTDATE.split("T")[0]} - {this.props.event.ENDDATE.split("T")[0]}</text>
+                                    <text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>{this.props.event.startDate.split("T")[0]} - {this.props.event.endDate.split("T")[0]}</text>
                                 </div>
                             </div>
                             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -49,7 +46,7 @@ class CurrentEvent extends Component {
                             </div>
                             <div style={{ display: "flex", justifyContent: "center" }}>
                                 <div style={{ marginTop: 20 }}>
-                                    <text style={{ color: "white", textAlign: "center" }}>{this.props.event.TAGLINE}</text>
+                                    <text style={{ color: "white", textAlign: "center" }}>{this.props.event.tagline}</text>
                                 </div>
                             </div>
                             <div style={{ display: "flex", justifyContent: "center" }}>

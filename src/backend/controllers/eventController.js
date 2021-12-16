@@ -11,7 +11,7 @@ const sendResponse = (message, statusCode, res, isStatus) => {
 
 exports.getNumberOfRegisteredPlayers = (req, res) => {
     const { id } = req.params;
-    let sql = `SELECT COUNT(id) AS count FROM gamesystem.PLAYERS GROUP BY tour_id HAVING tour_id = ?`;
+    let sql = `SELECT COUNT(id) AS count FROM gamesystem_modified.PLAYERS GROUP BY tour_id HAVING tour_id = ?`;
     let values = [id];
     con.query(sql, values, (err, docs) => {
         if (err) throw err;
@@ -21,7 +21,7 @@ exports.getNumberOfRegisteredPlayers = (req, res) => {
 }
 
 exports.getEvents = (req, res) => {
-    con.query("SELECT * FROM gamesystem.TOURNAMENTS WHERE STARTDATE <= NOW()", function (err, result, fields) {
+    con.query("SELECT * FROM gamesystem_modified.TOURNAMENTS WHERE STARTDATE <= NOW()", function (err, result, fields) {
         if (err) throw err;
         res.set('Access-Control-Expose-Headers', 'X-Total-Count')
         res.set('X-Total-Count', result.length)
@@ -32,7 +32,7 @@ exports.getEvents = (req, res) => {
 
 exports.deleteEvent = (req, res) => {
     const { id } = req.params;
-    let sql = `delete from gamesystem.tournaments where id = ?`;
+    let sql = `delete from gamesystem_modified.tournaments where id = ?`;
     con.query(sql, [id], (err, docs) => {
         if (docs.affectedRows === 0 || err) {
             return sendResponse(
@@ -44,7 +44,7 @@ exports.deleteEvent = (req, res) => {
         }
         return sendResponse(null, 204, res, 'success');
     });
-    sql = `delete from gamesystem.tour_info where tour_id = ?`;
+    sql = `delete from gamesystem_modified.tour_info where tour_id = ?`;
 
     con.query(sql, [id], (err, docs) => {
         if (docs.affectedRows === 0 || err) {
@@ -61,49 +61,60 @@ exports.deleteEvent = (req, res) => {
 
 exports.addEvent = (req, res) => {
     console.log(req.body);
-    const { id, STARTDATE, ENDDATE, PRIZE, IMAGE, TAGLINE, description } = req.body;
+    const { tour_name, startDate, endDate, prize, IMAGE, tagline, description, maxplayers, maxteams } = req.body;
 
-    let sql = `insert into gamesystem.tournaments(id,startDate,endDate,prize, image, time_added) values (?)`;
+    let sql = `insert into gamesystem_modified.tournaments(tour_name, startDate,endDate,prize, image, time_added, maxplayers, maxteams) values (?)`;
 
-    let values = [id, STARTDATE, ENDDATE, PRIZE, IMAGE.src, Date.now().toString()];
+    let values = [tour_name, startDate, endDate, prize, IMAGE.src, new Date(Date.now()), maxplayers, maxteams];
     con.query(sql, [values], (err, docs) => {
-       if(err) throw err;
-    });
-    sql = `insert into gamesystem.tour_info values (?)`;
-    values = [id, description, TAGLINE]
-    con.query(sql, [values], (err, docs) => {
-        if(err) throw err;
+        if (err) throw err;
+        sql = `insert into gamesystem_modified.tour_info values (?)`;
+        values = [docs.insertId, description, tagline]
+        con.query(sql, [values], (err, docs) => {
+            if (err) throw err;
+        });
     });
 }
 
 exports.updateEvent = (req, res) => {
     console.log(req.body);
-    const { STARTDATE, ENDDATE, PRIZE, game_id, IMAGE, description } = req.body;
+    const { tour_name, gameName, startDate, endDate, prize, IMAGE, description, tagline, maxplayers, maxteams } = req.body;
     const { id } = req.params;
-    let sql = `update gamesystem.tournaments set startDate = ?, endDate = ?, prize = ?, game_id = ?, image = ? where id = ?`;
+    let sql = `update gamesystem_modified.tournaments set startDate = ?, endDate = ?, prize = ?, image = ?, tour_name = ?, gameName = ?, maxplayers = ?, maxteams = ? where id = ?`;
 
-    let values = [STARTDATE, ENDDATE, PRIZE, game_id, IMAGE, id];
+    let values = [ startDate, endDate, prize, IMAGE.src, tour_name, gameName, maxplayers, maxteams, id];
 
     con.query(sql, values, (err, docs) => {
         // if (docs.affectedRows === 0 || err) {
         //     return sendResponse(false, 400, res, 'fail');
         // }
-        if(err) throw err;
+        if (err) throw err;
     });
-    sql = `update gamesystem.tour_info set description = ? where tour_id = ?`;
+    sql = `update gamesystem_modified.tour_info set description = ? where tour_id = ?`;
     const tour_id = id;
-    values = [description, tour_id];
+    values = [description, tagline, tour_id];
 
     con.query(sql, values, (err, docs) => {
         // if (docs.affectedRows === 0 || err) {
         //     return sendResponse(false, 400, res, 'fail');
         // }
-        if(err) throw err;
+        if (err) throw err;
     });
 }
 
 exports.getEventInfo = (req, res) => {
-    const sql = `SELECT * FROM gamesystem.TOURNAMENTS T LEFT OUTER JOIN gamesystem.TOUR_INFO TI ON T.ID = TI.TOUR_ID WHERE T.STARTDATE <= NOW()`;
+    const sql = `SELECT * FROM gamesystem_modified.TOURNAMENTS T LEFT OUTER JOIN gamesystem_modified.TOUR_INFO TI ON T.ID = TI.TOUR_ID`;
+    con.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        res.set('Access-Control-Expose-Headers', 'X-Total-Count')
+        res.set('X-Total-Count', result.length)
+
+        res.send(result)
+        console.log("Records sent!");
+    });
+}
+exports.getOngoing = (req, res) => {
+    const sql = `SELECT * FROM gamesystem_modified.TOURNAMENTS T LEFT OUTER JOIN gamesystem_modified.TOUR_INFO TI ON T.ID = TI.TOUR_ID WHERE T.STARTDATE <= NOW()`;
     con.query(sql, function (err, result, fields) {
         if (err) throw err;
         res.set('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -117,7 +128,7 @@ exports.getEventInfo = (req, res) => {
 exports.getAnEventInfo = (req, res) => {
     const { id } = req.params;
     console.log(id);
-    const sql = `SELECT * FROM gamesystem.TOURNAMENTS T LEFT OUTER JOIN gamesystem.TOUR_INFO TI ON T.id = TI.TOUR_ID where T.id = ?`;
+    const sql = `SELECT * FROM gamesystem_modified.TOURNAMENTS T LEFT OUTER JOIN gamesystem_modified.TOUR_INFO TI ON T.id = TI.TOUR_ID where T.id = ?`;
     const values = [id];
     con.query(sql, values, function (err, result, fields) {
         if (err) throw err;
@@ -130,28 +141,28 @@ exports.getAnEventInfo = (req, res) => {
 }
 
 exports.getRecentEvent = (req, res) => {
-    const sql = `SELECT * FROM gamesystem.TOURNAMENTS T LEFT OUTER JOIN gamesystem.TOUR_INFO TI ON T.id = TI.TOUR_ID ORDER BY T.TIME_ADDED DESC`;
+    const sql = `SELECT * FROM gamesystem_modified.TOURNAMENTS T LEFT OUTER JOIN gamesystem_modified.TOUR_INFO TI ON T.id = TI.TOUR_ID ORDER BY T.TIME_ADDED DESC`;
     con.query(sql, function (err, result, fields) {
         if (err) throw err;
         res.set('Access-Control-Expose-Headers', 'X-Total-Count')
         res.set('X-Total-Count', result.length)
-        res.send([result[0]])
+        res.send(result)
         console.log("Records sent!");
     });
 }
 
 exports.getEventOfUser = (req, res) => {
     const { userName } = req.params;
-    const sql = `SELECT * FROM GAMESYSTEM.TOURNAMENTS WHERE id = (SELECT tour_id FROM GAMESYSTEM.PLAYERS WHERE userName = ?)`;
+    const sql = `SELECT * FROM gamesystem_modified.TOURNAMENTS WHERE id = (SELECT tour_id FROM gamesystem_modified.PLAYERS WHERE userName = ?)`;
     let values = [userName];
     con.query(sql, values, (err, docs) => {
-        if(err) throw err;
+        if (err) throw err;
         res.send(docs);
     });
 }
 
 exports.getUpcoming = (req, res) => {
-    const sql = `SELECT * FROM gamesystem.TOURNAMENTS T LEFT OUTER JOIN gamesystem.TOUR_INFO TI ON T.ID = TI.TOUR_ID WHERE T.STARTDATE > NOW()`;
+    const sql = `SELECT * FROM gamesystem_modified.TOURNAMENTS T LEFT OUTER JOIN gamesystem_modified.TOUR_INFO TI ON T.ID = TI.TOUR_ID WHERE T.STARTDATE > NOW()`;
     con.query(sql, function (err, result, fields) {
         if (err) throw err;
         res.set('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -164,17 +175,17 @@ exports.getUpcoming = (req, res) => {
 
 exports.getMaxplayers = (req, res) => {
     const { id } = req.params;
-    const sql = `SELECT maxplayers FROM GAMESYSTEM.TOURNAMENTS WHERE id = ?`;
+    const sql = `SELECT maxplayers FROM gamesystem_modified.TOURNAMENTS WHERE id = ?`;
     let values = [id];
     con.query(sql, values, (err, docs) => {
-        if(err) throw err;
+        if (err) throw err;
         res.send(docs);
     });
 }
 
 exports.getTeams = (req, res) => {
     const { id } = req.params;
-    let sql = `SELECT COUNT(id) AS count FROM gamesystem.TEAMS GROUP BY tour_id HAVING tour_id = ?`;
+    let sql = `SELECT COUNT(id) AS count FROM gamesystem_modified.TEAMS GROUP BY tour_id HAVING tour_id = ?`;
     let values = [id];
     con.query(sql, values, (err, docs) => {
         if (err) throw err;

@@ -32,11 +32,14 @@ const PreviewImage = ({ record, source }) => {
 export const EventEdit = props => (
     <Edit {...props}>
         <SimpleForm>
-            <TextInput source="id" />
-            <DateInput source="STARTDATE" />
-            <DateInput source="ENDDATE" />
-            <TextInput source="PRIZE" />
-            <TextInput source="IMAGE" />
+            <TextInput source="tour_name" />
+            <TextInput source="gameName" />
+            <DateInput source="startDate" />
+            <DateInput source="endDate" />
+            <TextInput source="prize" />
+            <ImageInput source="IMAGE">
+                <PreviewImage source="src" />
+            </ImageInput>
             <TextInput source="description" options={{ multiLine: true }} />
             <TextInput source="TAGLINE" />
             <TextInput source="maxplayers" />
@@ -48,15 +51,16 @@ export const EventEdit = props => (
 export const EventCreate = props => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="id" />
-            <DateInput source="STARTDATE" />
-            <DateInput source="ENDDATE" />
-            <TextInput source="PRIZE" />
+            <TextInput source="tour_name" />
+            <TextInput source="gameName" />
+            <DateInput source="startDate" />
+            <DateInput source="endDate" />
+            <TextInput source="prize" />
             <ImageInput source="IMAGE">
                 <PreviewImage source="src" />
             </ImageInput>
             <TextInput source="description" options={{ multiLine: true }} />
-            <TextInput source="TAGLINE" />
+            <TextInput source="tagline" />
             <TextInput source="maxplayers" />
             <TextInput source="maxteams" />
         </SimpleForm>
@@ -65,13 +69,11 @@ export const EventCreate = props => (
 export const EventList = props => (
     <List {...props}>
         <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <DateField source="STARTDATE" />
-            <DateField source="ENDDATE" />
-            <TextField source="PRIZE" />
-            <TextField source="IMAGE" />
-            <TextField source="description" />
-            <TextField source="TAGLINE" />
+            <TextField source="tour_name" />
+            <TextField source="gameName" />
+            <DateField source="startDate" />
+            <DateField source="endDate" />
+            <TextField source="prize" />
             <TextField source="maxplayers" />
             <TextField source="maxteams" />
             <EditButton />

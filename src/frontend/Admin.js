@@ -20,10 +20,10 @@ class AdminPanel extends Component {
   render(){
    return (
        <Admin dataProvider={dataProvider}>
-           <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate}/>
-           <Resource name="teams" list={TeamList} edit={TeamEdit} create={TeamCreate}></Resource>
-           <Resource name="eventinfo" list={EventList} edit={EventEdit} create={EventCreate}/>
-           <Resource name="matches" list={MatchList} edit={MatchEdit} create={MatchCreate}/>
+           <Resource name="Users" list={UserList} edit={UserEdit} create={UserCreate}/>
+           <Resource name="Teams" list={TeamList} edit={TeamEdit} create={TeamCreate}></Resource>
+           <Resource name="EventInfo" list={EventList} edit={EventEdit} create={EventCreate}/>
+           <Resource name="Matches" list={MatchList} edit={MatchEdit} create={MatchCreate}/>
        </Admin>
    );
   }

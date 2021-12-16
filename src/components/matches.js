@@ -24,7 +24,6 @@ import {
 export const MatchEdit = props => (
     <Edit {...props}>
         <SimpleForm>
-            <TextInput source="id" />
             <TextInput source="teamA" />
             <TextInput source="teamB" />
             <TextInput source="tour_id" />
@@ -37,7 +36,6 @@ export const MatchEdit = props => (
 export const MatchCreate = props => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="id" />
             <TextInput source="teamA" />
             <TextInput source="teamB" />
             <TextInput source="tour_id" />
@@ -49,7 +47,6 @@ export const MatchCreate = props => (
 export const MatchList = props => (
     <List {...props}>
         <Datagrid rowClick="edit">
-            <TextField source="id" />
             <TextField source="teamA" />
             <TextField source="teamB" />
             <TextField source="tour_id" />

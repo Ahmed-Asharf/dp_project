@@ -9,12 +9,13 @@ const sendResponse = (message, statusCode, res, isStatus) => {
     });
 };
 exports.signup = (req, res) => {
-    let { userName, password, phone, email, isBanned, noOfTournaments } = req.body;
+    console.log(req.body);
+    let { userName, firstname, lastname, password, phone, email, isBanned } = req.body;
     let id = userName.slice(0, 2) + password.slice(0, 2);
     noOfTournaments = 1;
     isBanned = 0;
     console.log(req.body);
-    con.query("INSERT INTO gamesystem.players(id, userName, password, phone, email, isBanned, noOfTournaments) VALUES('" + id + "','" + userName + "','" + password + "','" + phone + "','" + email + "','" + isBanned + "','" + noOfTournaments + "');", function (err, result, fields) {
+    con.query("INSERT INTO gamesystem_modified.players(firstname, lastname, userName, password, phone, email, isBanned) VALUES('" + firstname + "', '" + lastname + "', '" + userName + "','" + password + "','" + phone + "','" + email + "','" + isBanned + "');", function (err, result, fields) {
         if (err) throw err;
         console.log("new record added to db");
         res.send({ status: "success" });

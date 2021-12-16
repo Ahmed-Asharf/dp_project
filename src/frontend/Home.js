@@ -72,9 +72,7 @@ class Home extends Component {
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
               <div style={{ width: "80%" }}>
-                {this.state.recentEvent.map((event, index) => (
-                  <Slider id={event.id} />
-                ))}
+                  <Slider  />
               </div>
             </div>
           </div>

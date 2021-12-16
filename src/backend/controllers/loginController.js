@@ -12,7 +12,7 @@ const sendResponse = (message, statusCode, res, isStatus) => {
 exports.login = (req, res) => {
     let userName = req.body.email;
     let password = req.body.password;
-    con.query("SELECT * FROM gamesystem.players", function (err, result, fields) {
+    con.query("SELECT * FROM gamesystem_modified.players", function (err, result, fields) {
         if (err) throw err;
         for (var x = 0; x < result.length; x++) {
             if (result[x].userName == userName && result[x].password == password) {
